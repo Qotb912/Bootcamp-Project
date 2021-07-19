@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 //const logger =require('./middleware/logger');
 const morgan = require('morgan');
 const colors = require('colors');
+const path = require('path');
+const fileupload = require('express-fileupload');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 
@@ -14,6 +16,7 @@ connectDB();
 
 //Route files
 const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses');
 
 const app = express();
 
@@ -25,9 +28,14 @@ app.use(express.json());
 if(process.env.NODE_ENV === 'development'){
   app.use(morgan('dev'))
 }
+//File uploading
+app.use(fileupload());
+//Set static folder
+app.use(express.static(path.join(__dirname,'public')));
 
 //Mount routers
 app.use('/api/v1/bootcamps',bootcamps);
+app.use('/api/v1/courses',courses);
 
 //use to catch error 
 //need to be after mount routers to can catch error after that 
