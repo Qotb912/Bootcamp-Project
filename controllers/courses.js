@@ -54,18 +54,23 @@ exports.getCourse = asyncHandler(async (req,res,next)=>{
 // @route  POST /api/v1/bootcamps/:bootcampId/courses
 // @access Private
 exports.addCourse = asyncHandler(async (req,res,next)=>{
-
-
   const bootcamp = await Bootcamp.findById(req.params.bootcampId) ;
-  if(!bootcamp){
-    return next(new ErrorResponse(`No bootcamp found with id of ${req.params.id}`),404);
-  }
+  req.body.user = req.user.id;
   req.body.bootcamp = req.params.bootcampId;
+
+  if(!bootcamp){
+    return next(new ErrorResponse(`No bootcamp found with id of ${req.params.id}`,404));
+  }
   
+  //Mack sure the logged in user is the owner
+  if(req.user.id !== bootcamp.user.toString() && req.user.role !== 'admin'){
+    return next(new ErrorResponse(`User ${req.user.id} is not authorized to add course to bootcamp${bootcamp._id}`,401));
+  }
+
   const course = await Course.create(req.body)
 
   res
-    .status(200)
+    .status(200) 
     .json({
       success : true,
       data : course
@@ -80,6 +85,11 @@ exports.updateCourse = asyncHandler(async (req,res,next)=>{
   if(!course){
     return next(new ErrorResponse(`No bootcamp found with id of ${req.params.id}`),404);
   }
+  //Mack sure the logged in user is the owner
+  if(req.user.id !== course.user.toString() && req.user.role != 'admin'){
+    return next(new ErrorResponse(`User ${req.user.id} is not authorized to update course ${course._id}`,401));
+  }
+
   course = await Course.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true}) ;
   res
     .status(200)
@@ -96,6 +106,10 @@ exports.deleteCourse = asyncHandler(async (req,res,next)=>{
   const course = await Course.findById(req.params.id);
   if(!course){
     return next(new ErrorResponse(`No bootcamp found with id of ${req.params.id}`),404);
+  }
+  //Mack sure the logged in user is the owner
+  if(req.user.id !== course.user.toString() && req.user.role != 'admin'){
+    return next(new ErrorResponse(`User ${req.user.id} is not authorized to remove course ${course._id}`,401));
   }
  await course.remove();
   res
