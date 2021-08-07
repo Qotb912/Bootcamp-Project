@@ -8,7 +8,7 @@ const errorHandler = (err, req, res, next)=>{
 
   //Log consle for dev
   //def betw err.stack & err
-  console.log(err);
+  //console.log(err);
   //console.log(err.code.red);
 
   //Mongoose bad Object
@@ -26,7 +26,7 @@ const errorHandler = (err, req, res, next)=>{
   //Mongoose validataion errors
   if(err.name === 'ValidationError'){
     const message = Object.values(err.errors).map(val => val.message);
-    console.log(message);
+    //console.log(message);
     error=new ErrorResponse(message,400);
   }
 
