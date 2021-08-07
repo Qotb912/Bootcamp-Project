@@ -63,7 +63,7 @@ app.use(cors());
 
 //File uploading
 app.use(fileupload());
-//Set static folderّ
+//Set static folder
 app.use(express.static(path.join(__dirname,'public')));
 
 //Mount routers
