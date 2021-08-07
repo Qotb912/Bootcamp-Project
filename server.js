@@ -15,6 +15,8 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 
+//TODO how to use https s?
+
 //Load env var from config/config.env
 dotenv.config({path:'./config/config.env'});
 
