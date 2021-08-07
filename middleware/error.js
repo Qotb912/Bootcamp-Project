@@ -13,7 +13,7 @@ const errorHandler = (err, req, res, next)=>{
 
   //Mongoose bad Object
   if(err.name === 'CastError'){
-    const message = `Resource not found with id of ${err.value}`;
+    const message = `Resource not found`;
     error = new ErrorResponse(message,404);
   }
 
@@ -26,6 +26,7 @@ const errorHandler = (err, req, res, next)=>{
   //Mongoose validataion errors
   if(err.name === 'ValidationError'){
     const message = Object.values(err.errors).map(val => val.message);
+    console.log(message);
     error=new ErrorResponse(message,400);
   }
 
