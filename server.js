@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-//const logger =require('./middleware/logger');
+const logger =require('./middleware/logger');
 const morgan = require('morgan');
 const colors = require('colors');
 const path = require('path');
@@ -36,7 +36,7 @@ const app = express();
 //app.use(cookieParser());
 
 //Dev logging Middleware
-//app.use(logger);
+app.use(logger);
 if(process.env.NODE_ENV === 'development'){
   app.use(morgan('dev'))
 }
