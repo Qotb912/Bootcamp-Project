@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const FarmSchema = new mongoose.Schema({
-  //TODO make good id
-  id:String,
+  name:String,
   owner:String,
+  //TODO good location data
   location:String,
 });
 module.exports = mongoose.model('Farm',FarmSchema);
