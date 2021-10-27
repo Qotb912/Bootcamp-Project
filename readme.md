@@ -18,7 +18,7 @@ npm install
 # Run in dev mode
 npm ruun dev
 
-# Run in prod mode
+# Run in production mode
 npm start
 ```
 
